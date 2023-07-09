@@ -34,8 +34,8 @@ const QuestionList: React.FC<{ items: Question[] }> = (props) => {
             </Box>
             <Typography>{question.content}</Typography>
             <Typography>
-              <Recommend>{question.recommend}</Recommend>
-              <Pageview>{question.view}</Pageview>
+              <Recommend/><span>{question.recommend}</span>
+              <Pageview/><span>{question.view}</span>
             </Typography>
           </Box>
         </ListItem>

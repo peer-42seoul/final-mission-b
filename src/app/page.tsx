@@ -5,8 +5,8 @@ export default function Home() {
     content: [
       {
         questionId: 5,
-        recommend: 0,
-        view: 0,
+        recommend: 3,
+        view: 5,
         answerCount: 0,
         title: "this is test",
         content: "this is test",
@@ -16,8 +16,8 @@ export default function Home() {
       },
       {
         questionId: 1,
-        recommend: 0,
-        view: 0,
+        recommend: 2,
+        view: 11,
         answerCount: 0,
         title: "Grand Theft Auto: San Andreas",
         content: "All we had to do, was follow the damn train, CJ!",
