@@ -1,13 +1,13 @@
 export interface Question {
   questionId: number;
+  title: string;
+  answerCount: number;
+  category: string;
   recommend: number;
   view: number;
-  answerCount: number;
-  title: string;
-  content: string;
-  category: string;
-  createAt: string;
   nickname: string;
+  createdAt: string;
+  content: string;
 }
 
 export interface Pageable {
@@ -23,7 +23,7 @@ export interface Pageable {
   unpaged: boolean
 }
 
-export interface Result {
+export interface Data {
   content: Question[],
   pageable: Pageable,
   totalPages: number,

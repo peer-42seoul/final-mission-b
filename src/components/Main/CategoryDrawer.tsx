@@ -9,16 +9,16 @@ const drawerWidth = 240;
 
 
 
-function CategoryDrawer() {
+function CategoryDrawer({ onCategorySelect }: {onCategorySelect: (selectedCategory: string) => void}) {
 	const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  //const [selectedCategory, setSelectedCategory] = useState('');
 
-  const handleDrawerToogle = () => {
+  const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleSelectCategory = (category: string) => {
-    setSelectedCategory(category);
+  const handleCategorySelect = (category: string) => {
+    onCategorySelect(category);
   }
 
   const drawer = (
@@ -31,7 +31,7 @@ function CategoryDrawer() {
         {['minishell', 'minirt', 'ft_irc'].map((category) => (
           <ListItem
             key={category}
-            onClick={() => handleSelectCategory(category)}
+            onClick={() => handleCategorySelect(category)}
           >
             <ListItemButton>
               <ListItemIcon><Numbers/></ListItemIcon>
@@ -56,7 +56,7 @@ function CategoryDrawer() {
           <IconButton
             color="inherit"
             edge="start"
-            onClick={handleDrawerToogle}
+            onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
@@ -73,7 +73,7 @@ function CategoryDrawer() {
         <Drawer
           variant="temporary"
           open={mobileOpen}
-          onClose={handleDrawerToogle}
+          onClose={handleDrawerToggle}
           sx={{
             display: {xs: 'block', sm: 'none'},
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },

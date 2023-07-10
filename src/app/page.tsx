@@ -2,9 +2,11 @@
 import QuestionList from "@/components/Main/QusetionList";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { Box, CssBaseline, Toolbar } from "@mui/material";
-import { useState } from "react";
-import { Result } from "@/components/Main/types";
+import { useEffect, useState } from "react";
+import { Question, Pageable, Data } from "@/components/Main/types";
 
+import mainData from './main.json';
+import categoryData from './category.json';
 
 const tmpData = {
   content: [
@@ -17,7 +19,7 @@ const tmpData = {
       content: "this is test",
       category: "MINISHELL",
       createAt: "2023-07-06T13:18:32.167038",
-      nickname: "test123",
+      nickname:  "test123",
     },
     {
       questionId: 1,
@@ -59,43 +61,59 @@ const tmpData = {
 };
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<Data | null>(null);
   const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-
+  //데이터 로드 함수
   async function getData(url: string) {
     try {
-      const urlPath = 'http://localhost:8080/v1/';
+      // // const urlPath = 'http://localhost:8080/v1/';
+      // const urlPath = 'https://peerflow-finalmission-default-rtdb.firebaseio.com/'
 
-      const response = await fetch(urlPath + url);
+      // const response = await fetch(urlPath + url);
 
-      if (!response.ok) {
-        throw new Error("something went wrong!");
+      // if (!response.ok) {
+      //   throw new Error("something went wrong!");
+      // }
+
+      // const loadeddata = await response.json();
+      if (url === "") {
+        setData(mainData);
       }
-
-      const data = await response.json();
-      
+      else {
+        setData(categoryData[selectedCategory]);
+      }
+      // setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
-  };
+  }
+  //첫 데이터 로드
+  useEffect(() => {
+    getData(selectedCategory);
+    console.log(data);
+  }, [selectedCategory]);
 
-  ///v1?category=&sort=&pageIndex=&pageSize=
+  
+  ///v1?category=${category}&sort=&pageIndex=&pageSize=
 
 
-
+  const handleCategorySelect = (selectedCategory: string) => {
+    setSelectedCategory(selectedCategory);
+  }
   
 
   return (
     <Box sx={{ display:"flex"}}>
       <CssBaseline /> 
-      <CategoryDrawer/>
+      <CategoryDrawer onCategorySelect={handleCategorySelect}/>
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
       >
         <Toolbar/>
-        <QuestionList items={data.content}/>
+        <QuestionList items={data?.content ?? []}/>
       </Box>
     </Box>
   );
