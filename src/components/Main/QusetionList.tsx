@@ -1,18 +1,9 @@
 "use client"
 import { Box, List, ListItem, Link, Typography } from "@mui/material";
 import { Recommend, Pageview } from "@mui/icons-material";
+import { isInterfaceDeclaration } from "typescript";
+import { Question } from "./types";
 
-interface Question {
-  questionId: number;
-  recommend: number;
-  view: number;
-  answerCount: number;
-  title: string;
-  content: string;
-  category: string;
-  createAt: string;
-  nickname: string;
-}
 
 const QuestionList: React.FC<{ items: Question[] }> = (props) => {
   return (
