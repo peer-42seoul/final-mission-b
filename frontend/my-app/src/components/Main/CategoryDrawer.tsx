@@ -1,30 +1,49 @@
 "use client"
 import { AppBar, Divider, List, ListItem, ListItemText, Toolbar, Drawer, Box, Typography, ListItemButton, ListItemIcon, IconButton, Menu } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Numbers } from "@mui/icons-material";
 import  MenuIcon from "@mui/icons-material/Menu";
+import Link from "next/link";
+import SearchInput from "./SearchInput";
 
 
 const drawerWidth = 240;
 
 
 
-function CategoryDrawer({ onCategorySelect }: {onCategorySelect: (selectedCategory: string) => void}) {
+function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: string, search: string) => void}) {
 	const [mobileOpen, setMobileOpen] = useState(false);
-  //const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchContent, setSearchContent] = useState("")
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleCategorySelect = (category: string) => {
-    onCategorySelect(category);
-  }
+    setSelectedCategory(category);
+    setSearchContent("");
+    handleCategorySearch(category, "");
+  };
+
+  const handleCategorySearch = (category: string, search: string) => {
+    onCategorySearch(category, search);
+  };
+
+  const handleSearch = (search: string) => {
+    console.log("handlesearch");
+    setSearchContent(search);
+    setSelectedCategory("");
+    handleCategorySearch("", search);
+  };
+
 
   const drawer = (
     <div>
-      <Toolbar>
-
+      <Toolbar style={{ backgroundColor: "rgba(25, 117, 210, 0.8)"}}>
+        <Link href="#" onClick={() => handleCategorySelect("")} style={{ textDecoration: 'none', color: '#fff'}}>
+          <strong>Peer-flow</strong>
+        </Link>
       </Toolbar>
       <Divider />
       <List>
@@ -35,7 +54,7 @@ function CategoryDrawer({ onCategorySelect }: {onCategorySelect: (selectedCatego
           >
             <ListItemButton>
               <ListItemIcon><Numbers/></ListItemIcon>
-              <ListItemText>{category}</ListItemText>
+              <ListItemText sx={{ fontWeight: category === selectedCategory ? '700' : 'normal' }}>{category}</ListItemText>
             </ListItemButton>
           </ListItem>
         ))}
@@ -52,7 +71,7 @@ function CategoryDrawer({ onCategorySelect }: {onCategorySelect: (selectedCatego
           ml: {sm: `${drawerWidth}px`},
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: "space-between"}}>
           <IconButton
             color="inherit"
             edge="start"
@@ -61,9 +80,10 @@ function CategoryDrawer({ onCategorySelect }: {onCategorySelect: (selectedCatego
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">
-            전체보기
+          <Typography variant="h6" sx={{ fontSize: "18px" }}>
+            {selectedCategory ? selectedCategory : '전체보기'}
           </Typography>
+            <SearchInput onSearch={handleSearch}/>
         </Toolbar>
       </AppBar>
       <Box

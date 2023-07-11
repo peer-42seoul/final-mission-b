@@ -6,7 +6,7 @@ export interface Question {
   recommend: number;
   view: number;
   nickname: string;
-  createdAt: string;
+  createAt: string;
   content: string;
 }
 
