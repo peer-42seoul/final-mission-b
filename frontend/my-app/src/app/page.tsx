@@ -49,14 +49,14 @@ export default function Home() {
         setData(categoryData[selectedCategory]);
       }
 
-      const loadeddata = await response.json();
+      // const loadeddata = await response.json();
       // if (url === "") {
       //   setData(mainData);
       // }
       // else {
       //   setData(categoryData[selectedCategory]);
       // }
-      setData(loadeddata);
+      // setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
