@@ -48,7 +48,15 @@ export default function Home() {
       else {
         setData(categoryData[selectedCategory]);
       }
-      // setData(loadeddata);
+
+      const loadeddata = await response.json();
+      // if (url === "") {
+      //   setData(mainData);
+      // }
+      // else {
+      //   setData(categoryData[selectedCategory]);
+      // }
+      setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
