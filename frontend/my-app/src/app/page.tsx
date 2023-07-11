@@ -68,23 +68,23 @@ export default function Home() {
   //데이터 로드 함수
   async function getData(url: string) {
     try {
-      // // const urlPath = 'http://localhost:8080/v1/';
+      const urlPath = 'http://localhost:8080/v1/';
       // const urlPath = 'https://peerflow-finalmission-default-rtdb.firebaseio.com/'
 
-      // const response = await fetch(urlPath + url);
+      const response = await fetch(urlPath + url);
 
-      // if (!response.ok) {
-      //   throw new Error("something went wrong!");
+      if (!response.ok) {
+        throw new Error("something went wrong!");
+      }
+
+      const loadeddata = await response.json();
+      // if (url === "") {
+      //   setData(mainData);
       // }
-
-      // const loadeddata = await response.json();
-      if (url === "") {
-        setData(mainData);
-      }
-      else {
-        setData(categoryData[selectedCategory]);
-      }
-      // setData(loadeddata);
+      // else {
+      //   setData(categoryData[selectedCategory]);
+      // }
+      setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }

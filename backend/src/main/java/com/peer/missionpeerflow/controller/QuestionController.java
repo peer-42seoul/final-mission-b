@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/v1")
+@CrossOrigin("http://localhost:3000")
 @RequiredArgsConstructor
 public class QuestionController {
 
