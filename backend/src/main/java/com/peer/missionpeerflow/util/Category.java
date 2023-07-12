@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public enum Category {
-	MINISHELL(1, "minishell"), MINIRT(2, "miniRt"), FT_IRC(3, "ft_irc");
+	MINISHELL(1, "minishell"), MINIRT(2, "minirt"), FT_IRC(3, "ft_irc");
 
 	private final int code;
 	private final String type;

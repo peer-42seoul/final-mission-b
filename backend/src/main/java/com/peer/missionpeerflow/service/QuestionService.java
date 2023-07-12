@@ -34,10 +34,16 @@ public class QuestionService {
         };
     }
 
-    public Page<QuestionDto> getAllByCategory(Category category, String sortAttribute, int pageIndex, int pageSize) {
+    public Page<QuestionDto> getAllByCategory(String category, String sortAttribute, int pageIndex, int pageSize) {
 
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(Sort.Direction.DESC, sortAttribute));
-        Page<Question> questions = this.questionRepository.findAllByCategory(pageable, category);
+        Page<Question> questions;
+        if (category.isEmpty()) {
+            questions = this.questionRepository.findAll(pageable);
+        } else {
+            Category categoryType = Category.ofType(category);
+            questions = this.questionRepository.findAllByCategory(pageable, categoryType);
+        }
         return questions.map(QuestionDto::new);
     }
 

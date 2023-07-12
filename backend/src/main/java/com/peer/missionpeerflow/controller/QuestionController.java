@@ -33,14 +33,13 @@ public class QuestionController {
 
     @GetMapping
     @ResponseBody
-    public Page<QuestionDto> getMainPage(@RequestParam(defaultValue = "minishell") String category,
+    public Page<QuestionDto> getMainPage(@RequestParam String category,
                                          @RequestParam(defaultValue = "lastest") String sort,
                                          @RequestParam(defaultValue = "0") int pageIndex,
                                          @RequestParam(defaultValue = "10") int pageSize) {
 
-        Category categoryType = Category.ofType(category);
         String sortAttribute = getSortAttribute(sort);
-        return this.questionService.getAllByCategory(categoryType, sortAttribute, pageIndex, pageSize);
+        return this.questionService.getAllByCategory(category, sortAttribute, pageIndex, pageSize);
     }
 
     @GetMapping("/search")
