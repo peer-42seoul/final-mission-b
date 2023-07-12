@@ -32,24 +32,20 @@ export default function Home() {
         query = '?category=' + selectedCategory;
       }
       
-      // const response = await fetch(urlPath + query);
-
-      // if (!response.ok) {
-      //   throw new Error("something went wrong!");
-      // }
 
       query += '&sort=' + sortBy + '&pageIndex=' + pageIndex + '&pageSize=' + pageSize;
       console.log(query);
 
-      // const loadeddata = await response.json();
-      if (selectedCategory === "") {
-        setData(mainData);
-      }
-      else {
-        setData(categoryData[selectedCategory]);
-      }
 
       // const loadeddata = await response.json();
+      // if (selectedCategory === "") {
+      //   setData(mainData);
+      // }
+      // else {
+      //   setData(categoryData[selectedCategory]);
+      // }
+      const response = await fetch(urlPath + query);
+      const loadeddata = await response.json();
       // if (url === "") {
       //   setData(mainData);
       // }
