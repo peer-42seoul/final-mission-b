@@ -1,5 +1,6 @@
 package com.peer.missionpeerflow.service;
 
+import com.peer.missionpeerflow.dto.request.NewQuestionDto;
 import com.peer.missionpeerflow.dto.response.QuestionDto;
 import com.peer.missionpeerflow.entity.Question;
 import com.peer.missionpeerflow.repository.QuestionRepository;
@@ -46,5 +47,16 @@ public class QuestionService {
         Specification<Question> specification = search(title);
         Page<Question> questions = this.questionRepository.findAll(specification, pageable);
         return questions.map(QuestionDto::new);
+    }
+
+    public void postQuestion(NewQuestionDto newQuestion) {
+        Question question = new Question();
+        question.setTitle(newQuestion.getTitle());
+        question.setContent(newQuestion.getContent());
+        question.setNickname(newQuestion.getNickname());
+        question.setPassword(newQuestion.getPassword());
+        question.setCategory(Category.ofType(newQuestion.getCategory()));
+        question.setCreatedAt(newQuestion.getCreateAt());
+        this.questionRepository.save(question);
     }
 }

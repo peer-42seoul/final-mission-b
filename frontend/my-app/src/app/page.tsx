@@ -26,7 +26,7 @@ export default function Home() {
       const urlPath = 'http://localhost:8080/v1/';
       let query = "";
       if (searchContent !== "") {
-        query = '?search=' + searchContent;
+        query = 'search?title=' + searchContent;
       }
       else {
         query = '?category=' + selectedCategory;
@@ -52,7 +52,7 @@ export default function Home() {
       // else {
       //   setData(categoryData[selectedCategory]);
       // }
-      // setData(loadeddata);
+      setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
@@ -93,7 +93,7 @@ export default function Home() {
               label="Sort"
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <MenuItem value={"latest"}>최신순</MenuItem>
+              <MenuItem value={"lastest"}>최신순</MenuItem>
               <MenuItem value={"views"}>조회순</MenuItem>
               <MenuItem value={"recommends"}>추천순</MenuItem>
             </Select>

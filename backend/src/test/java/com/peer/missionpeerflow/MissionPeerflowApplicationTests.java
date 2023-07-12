@@ -15,6 +15,7 @@ class MissionPeerflowApplicationTests {
 
 	@Test
 	void contextLoads() {
+		Question q = new Question();
 	}
 
 }

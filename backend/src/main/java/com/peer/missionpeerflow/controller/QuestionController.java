@@ -1,5 +1,6 @@
 package com.peer.missionpeerflow.controller;
 
+import com.peer.missionpeerflow.dto.request.NewQuestionDto;
 import com.peer.missionpeerflow.dto.response.QuestionDto;
 import com.peer.missionpeerflow.exception.NotFoundException;
 import com.peer.missionpeerflow.service.QuestionService;
@@ -45,10 +46,19 @@ public class QuestionController {
     @GetMapping("/search")
     @ResponseBody
     public Page<QuestionDto> search(@RequestParam String title,
-                                    @RequestParam String sort) {
+                                    @RequestParam(defaultValue = "lastest") String sort) {
 
         String sortAttribute = getSortAttribute(sort);
         return this.questionService.searchByTitle(title, sortAttribute);
     }
 
+    @PostMapping("/question")
+    public void postQuestion(@RequestBody NewQuestionDto newQuestionDto) {
+        this.questionService.postQuestion((newQuestionDto));
+    }
+    @GetMapping("/question")
+    @ResponseBody
+    public String postQuestion() {
+        return "redirect:/v1";
+    }
 }
