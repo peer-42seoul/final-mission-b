@@ -26,7 +26,7 @@ export default function Home() {
       const urlPath = 'http://localhost:8080/v1/';
       let query = "";
       if (searchContent !== "") {
-        query = '?search=' + searchContent;
+        query = 'search?title=' + searchContent;
       }
       else {
         query = '?category=' + selectedCategory;
