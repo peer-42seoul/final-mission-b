@@ -1,7 +1,7 @@
 "use client"
 import QuestionList from "@/components/Main/QusetionList";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
+import { Box, CssBaseline, Toolbar, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Question, Pageable, Data } from "@/components/Main/types";
 import Pagination from '@mui/material/Pagination';
@@ -65,7 +65,7 @@ export default function Home() {
   useEffect(() => {
     getData();
     console.log("useeffect");
-  }, [selectedCategory, searchContent, pageIndex]);
+  }, [selectedCategory, searchContent, pageIndex, sortBy]);
 
   
   ///v1?category=${category}&sort=&pageIndex=&pageSize=
@@ -78,6 +78,7 @@ export default function Home() {
   }
   
 
+
   return (
     <Box sx={{ display:"flex"}}>
       <CssBaseline /> 
@@ -87,6 +88,21 @@ export default function Home() {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
       >
         <Toolbar/>
+        <Box sx={{ display: "flex", padding: "0 8px 8px 16px", alignItems:"center", justifyContent: "space-between" }}>
+          <Typography sx={{ fontSize: "13px"}}>{data?.size}개씩 보기</Typography>
+          <FormControl sx={{ m: 1, minWidth: 150 }}>
+            <InputLabel>Sort</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort"
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <MenuItem value={"latest"}>최신순</MenuItem>
+              <MenuItem value={"views"}>조회순</MenuItem>
+              <MenuItem value={"recommends"}>추천순</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
         <QuestionList items={data?.content ?? []}/>
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <Stack spacing={2} >

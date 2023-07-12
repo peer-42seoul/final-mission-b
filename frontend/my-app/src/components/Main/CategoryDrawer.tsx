@@ -71,7 +71,7 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
           ml: {sm: `${drawerWidth}px`},
         }}
       >
-        <Toolbar sx={{ justifyContent: "space-between"}}>
+        <Toolbar sx={{ justifyContent: {sm:"space-between"}}}>
           <IconButton
             color="inherit"
             edge="start"
@@ -83,7 +83,9 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
           <Typography variant="h6" sx={{ fontSize: "18px" }}>
             {selectedCategory ? selectedCategory : '전체보기'}
           </Typography>
+          <Box sx={{width: {xs: "160px", sm: "auto"}, position: {xs:"absolute"}, right: {xs:"10px"}} }>
             <SearchInput onSearch={handleSearch}/>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
