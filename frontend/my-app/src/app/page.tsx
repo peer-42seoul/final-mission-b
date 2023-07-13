@@ -43,7 +43,6 @@ export default function Home() {
       //else {
       //  setData(categoryData[selectedCategory]);
       //}
-      const loadeddata = await response.json();
       const response = await fetch(urlPath + query);
       const loadeddata = await response.json();
       setData(loadeddata);
