@@ -37,16 +37,16 @@ export default function Home() {
       console.log(query);
 
 
-      if (selectedCategory === "") {
-        setData(mainData);
-      }
-      else {
-        setData(categoryData[selectedCategory]);
-      }
-      //const loadeddata = await response.json();
-      //const response = await fetch(urlPath + query);
-      //const loadeddata = await response.json();
-      //setData(loadeddata);
+      //if (selectedCategory === "") {
+      //  setData(mainData);
+      //}
+      //else {
+      //  setData(categoryData[selectedCategory]);
+      //}
+      const loadeddata = await response.json();
+      const response = await fetch(urlPath + query);
+      const loadeddata = await response.json();
+      setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
