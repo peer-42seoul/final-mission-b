@@ -1,10 +1,14 @@
 "use client"
-import { AppBar, Divider, List, ListItem, ListItemText, Toolbar, Drawer, Box, Typography, ListItemButton, ListItemIcon, IconButton, Menu } from "@mui/material";
-import { useEffect, useState } from "react";
+import { AppBar, Divider, List, ListItem, ListItemText, Toolbar, Drawer, Box, Typography, ListItemButton, ListItemIcon, IconButton } from "@mui/material";
+import { useState } from "react";
 import { Numbers } from "@mui/icons-material";
 import  MenuIcon from "@mui/icons-material/Menu";
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 import Link from "next/link";
 import SearchInput from "./SearchInput";
+
+
 
 
 const drawerWidth = 240;
@@ -15,6 +19,11 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
 	const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchContent, setSearchContent] = useState("")
+  const [showSearchInput, setShowSearchInput] = useState(false);
+
+  const toggleSearchInput = () => {
+    setShowSearchInput(!showSearchInput);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -37,6 +46,11 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
     handleCategorySearch("", search);
   };
 
+  const handleBlur = () => {
+    if(showSearchInput) {
+      setShowSearchInput(false);
+    }
+  }
 
   const drawer = (
     <div>
@@ -71,7 +85,7 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
           ml: {sm: `${drawerWidth}px`},
         }}
       >
-        <Toolbar sx={{ justifyContent: {sm:"space-between"}}}>
+        <Toolbar sx={{ justifyContent: "space-between"}}>
           <IconButton
             color="inherit"
             edge="start"
@@ -80,12 +94,31 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" sx={{ fontSize: "18px" }}>
-            {selectedCategory ? selectedCategory : '전체보기'}
-          </Typography>
-          <Box sx={{width: {xs: "160px", sm: "auto"}, position: {xs:"absolute"}, right: {xs:"10px"}} }>
-            <SearchInput onSearch={handleSearch}/>
+          <Box sx={{ display: {xs: "flex", sm: "none"}, width: "100%", justifyContent: "space-between"}} onBlur={handleBlur}>
+            {!showSearchInput ? (
+              <Typography variant="h6" sx={{ fontSize: "18px" }}>
+                {selectedCategory ? selectedCategory : '전체보기'}
+              </Typography>
+            ): null}
+            {showSearchInput ? (
+              <SearchInput onSearch={handleSearch} />
+            ) : (
+              <IconButton color="inherit" onClick={toggleSearchInput}>
+                <SearchIcon />
+              </IconButton>
+            )}
           </Box>
+          <Box sx={{ display: {xs: "none", sm: "flex"}}}>
+            <Typography variant="h6" sx={{ fontSize: "18px" }}>
+              {selectedCategory ? selectedCategory : '전체보기'}
+            </Typography>
+            <SearchInput onSearch={handleSearch} />
+          </Box>
+          <a href="/write" style={{ textDecoration: 'none', color: '#fff' }}>
+            <IconButton color="inherit">
+              <AddIcon />
+            </IconButton>
+          </a>
         </Toolbar>
       </AppBar>
       <Box
@@ -119,3 +152,5 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
 }
 
 export default CategoryDrawer;
+
+
