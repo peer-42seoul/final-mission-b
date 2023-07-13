@@ -13,9 +13,12 @@ import java.util.List;
 @SpringBootTest
 class MissionPeerflowApplicationTests {
 
+	@Autowired
+	private QuestionRepository questionRepository;
+
 	@Test
 	void contextLoads() {
-		Question q = new Question();
+
 	}
 
 }

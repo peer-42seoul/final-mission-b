@@ -52,11 +52,10 @@ public class QuestionController {
     }
 
     @PostMapping("/question")
-    public void postQuestion(@RequestBody NewQuestionDto newQuestionDto) {
+    public void postQuestion(@RequestBody(required = true) NewQuestionDto newQuestionDto) {
         this.questionService.postQuestion((newQuestionDto));
     }
     @GetMapping("/question")
-    @ResponseBody
     public String postQuestion() {
         return "redirect:/v1";
     }
