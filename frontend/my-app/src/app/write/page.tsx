@@ -3,27 +3,23 @@ import { Box, CssBaseline, Toolbar, Stack, FormControl, InputLabel, TextField, S
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from 'react-hook-form';
+
+type FormData = {
+  title: string,
+  category: string,
+  nickname: string,
+  password: string,
+  content: string,
+};
 
 export default function Write() {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [password, setPassword] = useState("");
-  const [content, setContent] = useState("");
+  const { register, handleSubmit } = useForm<FormData>();
   const router = useRouter();
-
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
+  
+  const onSubmit = (data: FormData) => {
     
     const url = "http://localhost:8080/v1/question";
-
-    const data = {
-      title: title,
-      category: category,
-      nickname: nickname,
-      password: password,
-      content: content,
-    };
 
     fetch(url, {
       method: "POST",
@@ -32,36 +28,21 @@ export default function Write() {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("POST 요청 성공:", result);
-
-        setTitle("");
-        setCategory("");
-        setNickname("");
-        setPassword("");
-        setContent("");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    .catch((error) => {
+      console.error(error);
+    });
   };
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchContent, setSearchContent] = useState("");
   const [pageIndex , setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
   const handleCategorySearch = (category: string, search: string) => {
-    setSelectedCategory(category);
-    setSearchContent(search);
     let query = "";
-    if (searchContent !== "") {
-      query = 'search?title=' + searchContent;
+    if (search !== "") {
+      query = 'search?title=' + search;
     }
     else {
-      query = '?category=' + selectedCategory;
+      query = '?category=' + category;
     }
     query += '&sort=' + '&pageIndex=' + pageIndex + '&pageSize=' + pageSize;
     router.push("/"+ query);
@@ -71,22 +52,18 @@ export default function Write() {
     <Box sx={{display : "flex"}}>
       <CssBaseline /> 
       <CategoryDrawer onCategorySearch={handleCategorySearch} />
-      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` }}}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` }}}>
         <Toolbar/>
         <Stack spacing={2} sx={{display: "flex", flexDirection: "column", position: "relative"}}>
-
           <TextField
             label="제목"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
+            {...register("title", {required: true})}
           />
-          <FormControl required>
+          <FormControl>
             <InputLabel>게시판 타입</InputLabel>
             <Select
-              value={category}
               label="category"
-              onChange={(e) => setCategory(e.target.value)}
+              {...register("category", {required: true})}
             >
               <MenuItem value={"minishell"}>minishell</MenuItem>
               <MenuItem value={"minirt"}>minirt</MenuItem>
@@ -96,24 +73,18 @@ export default function Write() {
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
             <TextField
               label="닉네임"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              required
+              {...register("nickname", {required: true})}
               sx={{width: "45%"}}
             />
             <TextField
               label="비밀번호"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              {...register("password", {required: true})}
               sx={{width: "45%"}}
             />
           </Box>
           <TextField
             placeholder="내용을 입력해주세요."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
+            {...register("content", {required: true})}
             multiline={true}
             sx={{
               "& .MuiInputBase-root": {

@@ -3,7 +3,7 @@ import QuestionList from "@/components/Main/QusetionList";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { Box, CssBaseline, Toolbar, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Question, Pageable, Data } from "@/components/Main/types";
+import { Question, Pageable, Data } from "@/components/types";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
@@ -37,22 +37,16 @@ export default function Home() {
       console.log(query);
 
 
-      // const loadeddata = await response.json();
-      // if (selectedCategory === "") {
-      //   setData(mainData);
-      // }
-      // else {
-      //   setData(categoryData[selectedCategory]);
-      // }
-      const response = await fetch(urlPath + query);
-      const loadeddata = await response.json();
-      // if (url === "") {
-      //   setData(mainData);
-      // }
-      // else {
-      //   setData(categoryData[selectedCategory]);
-      // }
-      setData(loadeddata);
+      if (selectedCategory === "") {
+        setData(mainData);
+      }
+      else {
+        setData(categoryData[selectedCategory]);
+      }
+      //const loadeddata = await response.json();
+      //const response = await fetch(urlPath + query);
+      //const loadeddata = await response.json();
+      //setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
@@ -64,8 +58,6 @@ export default function Home() {
   }, [selectedCategory, searchContent, pageIndex, sortBy]);
 
   
-  ///v1?category=${category}&sort=&pageIndex=&pageSize=
-
 
   const handleCategorySearch = (category: string, search: string) => {
     console.log("handlecategorysearch");
@@ -84,8 +76,7 @@ export default function Home() {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
       >
         <Toolbar/>
-        <Box sx={{ display: "flex", padding: "0 8px 8px 16px", alignItems:"center", justifyContent: "space-between" }}>
-          <Typography sx={{ fontSize: "13px"}}>{data?.size}개씩 보기</Typography>
+        <Box sx={{ display: "flex", padding: "0 16px 8px 8px", alignItems:"center", justifyContent: "space-between" }}>
           <FormControl sx={{ m: 1, minWidth: 150 }}>
             <InputLabel>Sort</InputLabel>
             <Select
@@ -98,6 +89,7 @@ export default function Home() {
               <MenuItem value={"recommends"}>추천순</MenuItem>
             </Select>
           </FormControl>
+          <Typography sx={{ fontSize: "13px"}}>총 {data?.totalElements}개의 글 / {data?.size}개씩 보기</Typography>
         </Box>
         <QuestionList items={data?.content ?? []}/>
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>

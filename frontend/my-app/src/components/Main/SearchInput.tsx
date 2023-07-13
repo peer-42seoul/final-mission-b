@@ -46,7 +46,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-function SearchInput({ onSearch }: {onSearch: (search: string) => void}) {
+function SearchInput({ onSearch, onBlur }: {onSearch: (search: string) => void, onBlur: () => void}) {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +60,9 @@ function SearchInput({ onSearch }: {onSearch: (search: string) => void}) {
       setInputValue("");
     }
   }
+  const handleBlur = () => {
+    onBlur();
+  };
 
   return (
     <Search>
@@ -72,6 +75,7 @@ function SearchInput({ onSearch }: {onSearch: (search: string) => void}) {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         value={inputValue}
+        onBlur={handleBlur}
       />
     </Search>
   );
