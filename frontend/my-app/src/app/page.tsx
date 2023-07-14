@@ -3,7 +3,7 @@ import QuestionList from "@/components/Main/QusetionList";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { Box, CssBaseline, Toolbar, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Question, Pageable, Data } from "@/components/types";
+import { Question, Pageable, MainData } from "@/components/types";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
@@ -12,7 +12,7 @@ import categoryData from './category.json';
 
 
 export default function Home() {
-  const [data, setData] = useState<Data | null>(null);
+  const [data, setData] = useState<MainData | null>(null);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -37,13 +37,12 @@ export default function Home() {
       console.log(query);
 
 
-      //if (selectedCategory === "") {
+      // if (selectedCategory === "") {
       //  setData(mainData);
-      //}
-      //else {
+      // }
+      // else {
       //  setData(categoryData[selectedCategory]);
-      //}
-      const loadeddata = await response.json();
+      // }
       const response = await fetch(urlPath + query);
       const loadeddata = await response.json();
       setData(loadeddata);
@@ -89,7 +88,7 @@ export default function Home() {
               <MenuItem value={"recommends"}>추천순</MenuItem>
             </Select>
           </FormControl>
-          <Typography sx={{ fontSize: "13px"}}>총 {data?.totalElements}개의 글 / {data?.size}개씩 보기</Typography>
+          <Typography sx={{ fontSize: "13px"}}>총 {data?.numberOfElements}개의 글 / {data?.size}개씩 보기</Typography>
         </Box>
         <QuestionList items={data?.content ?? []}/>
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>

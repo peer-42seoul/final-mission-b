@@ -28,6 +28,10 @@ export default function Write() {
       },
       body: JSON.stringify(data),
     })
+    .then((result)=> {
+      console.log(result);
+      router.push("/");
+    })
     .catch((error) => {
       console.error(error);
     });

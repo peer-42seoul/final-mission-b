@@ -23,7 +23,7 @@ export interface Pageable {
   unpaged: boolean
 }
 
-export interface Data {
+export interface MainData {
   content: Question[],
   pageable: Pageable,
   totalPages: number,
@@ -39,4 +39,29 @@ export interface Data {
     empty: boolean
   },
   empty: boolean
+}
+
+export interface Answer {
+  nickname: string,
+  content: string,
+  createdAt: string,
+  updatedAt: string,
+  type: string,
+  recommend: number,
+  questionId: number,
+  answerId: number,
+  adopted: boolean
+}
+
+export interface DetailData {
+  nickname: string,
+  content: string,
+  createdAt: string,
+  updatedAt: string | null,
+  answerList: Answer[],
+  type: string,
+  title: string,
+  category: string,
+  recommend: number,
+  view: number
 }
