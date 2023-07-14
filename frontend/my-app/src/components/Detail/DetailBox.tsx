@@ -6,7 +6,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 
-const DetailBox: React.FC<{ item: DetailData | null }> = (props) => {
+const DetailBox: React.FC<{ item: DetailData | null, onDeleteControl: () => void }> = (props) => {
   const [password, setPassword] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
   const pathname = usePathname();
@@ -25,7 +25,9 @@ const DetailBox: React.FC<{ item: DetailData | null }> = (props) => {
     formattedUpdatedAt = formatDateTime(props.item.createdAt);
   }
 
-  
+  const handleDeleteControl = () => {
+    props.onDeleteControl();
+  }
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
@@ -49,7 +51,7 @@ const DetailBox: React.FC<{ item: DetailData | null }> = (props) => {
             {formattedUpdatedAt ? <Typography variant="h6">수정일: {formattedUpdatedAt}</Typography>: null}
             <Box sx={{position: "absolute", right: "0", bottom: "0"}}>
               <IconButton><Edit color="action" sx={{fontSize: "20px"}}/></IconButton>
-              <IconButton><Delete color="action" sx={{fontSize: "20px"}}/></IconButton>
+              <IconButton onClick={handleDeleteControl}><Delete color="action" sx={{fontSize: "20px"}}/></IconButton>
             </Box>
           </Box>
           <Divider />

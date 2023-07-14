@@ -1,5 +1,5 @@
 "use client"
-import { Box, CssBaseline, TextField, Button } from "@mui/material";
+import { Box, CssBaseline, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, TextField, Button } from "@mui/material";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,7 +15,9 @@ export default function Detail() {
   const [openAlert, setOpenAlert] = useState(false);
   const pathname = usePathname();
   const questionId = pathname.split('/')[2];
+  const [passwordError, setPasswordError] = useState(false);
 
+  //데이터 받기
   async function getData() {
     try {
       console.log(`http://localhost:8080/v1/question/${questionId}`);
@@ -33,6 +35,7 @@ export default function Detail() {
     getData();
   },[]);
 
+  //question 삭제하기
   const handleDelete = () => {
     const requestData = {
       type: "question",
@@ -46,17 +49,27 @@ export default function Detail() {
       },
       body: JSON.stringify(requestData),
     })
-    .catch((error) => {
-      console.error(error);
-    });
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error === "비밀번호가 일치하지 않습니다.") {
+        setPasswordError(true);
+        setPassword("");
+      }
+      else {
+        router.push("/");
+      }
+    })
   }
 
-  const handleAlert = () => {
-    setOpenAlert(!openAlert);
+  const handleAlertClose = () => {
+    setOpenAlert(false);
   }
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+    if (passwordError) {
+      setPasswordError(false);
+    }
   };
 
   const handleCategorySearch = (category: string, search: string) => {
@@ -66,25 +79,46 @@ export default function Detail() {
     router.push("/"+ query);
   };
 
+  const handleOpenAlert = () => {
+    setOpenAlert(true);
+  };
+
   return (
-    <Box sx={{display : "flex"}}>
-      <CssBaseline /> 
-      <CategoryDrawer onCategorySearch={handleCategorySearch} />
-      <DetailBox item={data}/>
-      {openAlert ? 
-        <Box>
+    <div>
+      <Box sx={{display : "flex", position: "relative"}}>
+        <CssBaseline /> 
+        <CategoryDrawer onCategorySearch={handleCategorySearch} />
+        <DetailBox item={data} onDeleteControl={handleOpenAlert}/>
+      </Box>
+      <Dialog open={openAlert} onClose={handleAlertClose}>
+        <DialogTitle>글 삭제</DialogTitle>
+        <DialogContent >
+          <DialogContentText>
+            본인이 작성한 글만 삭제하실 수 있습니다. 작성 당시 사용한 비밀번호를 입력해주세요.
+          </DialogContentText>
           <TextField
+            autoFocus
+            margin="dense"
             label="비밀번호"
             type="password"
             value={password}
+            fullWidth
+            variant="standard"
             onChange={handlePassword}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleDelete();
+              }
+            }}
+            error={passwordError}
+            helperText={passwordError ? "비밀번호가 틀렸습니다." : ""}
           />
-          <Button onClick={handleDelete} variant="contained" color="error">
-            확인
-          </Button>
-          <Button onClick={handleAlert}>취소</Button>
-        </Box>
-      : null}
-    </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDelete} type="submit">확인</Button>
+          <Button onClick={handleAlertClose}>취소</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
