@@ -1,6 +1,8 @@
 package com.peer.missionpeerflow.controller;
 
 import com.peer.missionpeerflow.dto.request.NewQuestionDto;
+import com.peer.missionpeerflow.dto.request.QuestionIdentifyDto;
+import com.peer.missionpeerflow.dto.response.QuestionDetailDto;
 import com.peer.missionpeerflow.dto.response.QuestionDto;
 import com.peer.missionpeerflow.exception.NotFoundException;
 import com.peer.missionpeerflow.service.QuestionService;
@@ -52,12 +54,28 @@ public class QuestionController {
     }
 
     @PostMapping("/question")
-    public void postQuestion(@RequestBody NewQuestionDto newQuestionDto) {
+    public boolean postQuestion(@RequestBody NewQuestionDto newQuestionDto) {
         this.questionService.postQuestion((newQuestionDto));
+        return true;
     }
-    @GetMapping("/question")
+
+    @GetMapping("/question/{questionId}")
     @ResponseBody
-    public String postQuestion() {
-        return "redirect:/v1";
+    public QuestionDetailDto getQuestionDetail(@PathVariable("questionId") Long questionId) {
+        return this.questionService.getQuestionDetail(questionId);
+    }
+
+    @PutMapping("/question/{questionId}")
+    public boolean putQuestion(@PathVariable("questionId") Long questionId,
+                            @RequestBody NewQuestionDto newQuestion) {
+        this.questionService.putQuestion(questionId, newQuestion);
+        return true;
+    }
+
+    @PostMapping("/question/{questionId}")
+    public boolean deleteQuestion(@PathVariable("questionId") Long questionId,
+                               @RequestBody QuestionIdentifyDto questionIdentify) {
+        this.questionService.deleteQuestion(questionId, questionIdentify.getPassword());
+        return true;
     }
 }
