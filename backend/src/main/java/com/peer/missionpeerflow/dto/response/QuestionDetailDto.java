@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 public class QuestionDetailDto {
 
-    private String type = "question";
     private String category;
     private String nickname;
     private String title;
