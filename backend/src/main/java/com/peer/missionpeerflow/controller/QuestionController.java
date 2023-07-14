@@ -76,4 +76,9 @@ public class QuestionController {
         this.questionService.delete(questionId, password);
         return true;
     }
+
+    @PutMapping("/question/recommend/{questionId}")
+    public void like(@PathVariable("questionId") Long questionId) {
+        this.questionService.like(questionId);
+    }
 }

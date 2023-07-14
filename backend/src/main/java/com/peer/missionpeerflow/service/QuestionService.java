@@ -75,7 +75,7 @@ public class QuestionService {
     @Transactional
     public QuestionDetailDto getDetail(Long questionId) {
         Question question = findQuestion(questionId);
-        question.setRecommend(question.getRecommend() + 1L);
+        question.setView(question.getView() + 1L);
         return new QuestionDetailDto(question);
     }
 
@@ -93,5 +93,12 @@ public class QuestionService {
             throw new RuntimeException("패스워드가 일치하지 않습니다.");
         }
         this.questionRepository.delete(question);
+    }
+
+    @Transactional
+    public void like(Long questoinId) {
+        Question question = findQuestion(questoinId);
+        question.setRecommend(question.getRecommend() + 1L);
+        this.questionRepository.save(question);
     }
 }
