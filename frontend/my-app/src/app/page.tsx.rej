@@ -1,0 +1,9 @@
+diff a/frontend/my-app/src/app/page.tsx b/frontend/my-app/src/app/page.tsx	(rejected hunks)
+@@ -43,7 +43,6 @@
+       //else {
+       //  setData(categoryData[selectedCategory]);
+       //}
+-      const loadeddata = await response.json();
+       const response = await fetch(urlPath + query);
+       const loadeddata = await response.json();
+       setData(loadeddata);

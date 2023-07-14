@@ -23,7 +23,7 @@ public abstract class BaseEntity {
 	@Column(nullable = false, columnDefinition = "VARCHAR(10)")
 	protected String password;
 
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "TEXT")
 	protected String content;
 
 	@CreatedDate
