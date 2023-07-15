@@ -43,6 +43,8 @@ export default function Home() {
       // else {
       //  setData(categoryData[selectedCategory]);
       // }
+
+
       const response = await fetch(urlPath + query);
       const loadeddata = await response.json();
       setData(loadeddata);
@@ -77,13 +79,12 @@ export default function Home() {
         <Toolbar/>
         <Box sx={{ display: "flex", padding: "0 16px 8px 8px", alignItems:"center", justifyContent: "space-between" }}>
           <FormControl sx={{ m: 1, minWidth: 150 }}>
-            <InputLabel>Sort</InputLabel>
+            <InputLabel sx={{fontSize: "14px"}}>Sort</InputLabel>
             <Select
               value={sortBy}
               label="Sort"
               onChange={(e) => setSortBy(e.target.value)}
-              style={{ height: "50px", fontSize: "15px"}}
-              
+              style={{height: "45px", fontSize: "14px"}}
             >
               <MenuItem value={"lastest"}>최신순</MenuItem>
               <MenuItem value={"views"}>조회순</MenuItem>

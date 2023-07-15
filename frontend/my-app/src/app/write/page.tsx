@@ -70,40 +70,47 @@ export default function Write() {
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` }}}>
         <Toolbar/>
         <Stack spacing={2} sx={{display: "flex", flexDirection: "column", position: "relative"}}>
-          <TextField
-            label="제목"
-            {...register("title", {required: true})}
-            error={!!errors.title}
-            helperText={errors.title && "제목을 입력해주세요."}
-            onChange={() => clearErrors("title")}
-          />
-          <FormControl error={!!errors.category}>
-            <InputLabel>게시판 타입</InputLabel>
-            <Select
-              label="category"
-              {...register("category", {required: true})}
-              defaultValue={''}
-              onChange={() => clearErrors("category")}
-            >
-              <MenuItem value={"minishell"}>minishell</MenuItem>
-              <MenuItem value={"minirt"}>minirt</MenuItem>
-              <MenuItem value={"ft_irc"}>ft_irc</MenuItem>
-            </Select>
-            {errors.category && <FormHelperText>카테고리를 선택해주세요.</FormHelperText>}
-          </FormControl>
-          <Box sx={{display: "flex", justifyContent: "space-between"}}>
+          <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "flex-end"}}>
             <TextField
-              label="닉네임"
+              variant="standard"
+              label="제목"
+              {...register("title", {required: true})}
+              error={!!errors.title}
+              helperText={errors.title && "제목을 입력해주세요."}
+              onChange={() => clearErrors("title")}
+              sx={{width: "75%"}}
+            />
+            <FormControl error={!!errors.category} sx={{width: "20%"}}>
+              <InputLabel>게시판 타입</InputLabel>
+              <Select
+                label="category"
+                {...register("category", {required: true})}
+                defaultValue={''}
+                onChange={() => clearErrors("category")}
+                style={{height: "45px", fontSize: "14px"}}
+              >
+                <MenuItem value={"minishell"}>minishell</MenuItem>
+                <MenuItem value={"minirt"}>minirt</MenuItem>
+                <MenuItem value={"ft_irc"}>ft_irc</MenuItem>
+              </Select>
+              {errors.category && <FormHelperText>카테고리를 선택해주세요.</FormHelperText>}
+            </FormControl>
+          </Box>
+          <Box sx={{display: "flex", alignItems: "center"}}>
+            <span style={{display: "flex", width: "80px", alignItems: "center", padding: "15px", color: "#5f5f5f"}}>닉네임:</span>
+            <TextField
+              variant="standard"
               {...register("nickname", {required: true})}
-              sx={{width: "45%"}}
+              sx={{width: "175px"}}
               error={!!errors.nickname}
               helperText={errors.nickname && "닉네임을 입력해주세요."}
               onChange={() => clearErrors("nickname")}
             />
+            <span style={{display: "flex", width: "100px", alignItems: "center", padding: "15px", color: "#5f5f5f"}}>비밀번호:</span>
             <TextField
-              label="비밀번호"
+              variant="standard"
               {...register("password", {required: true})}
-              sx={{width: "45%"}}
+              sx={{width: "175px"}}
               error={!!errors.password}
               helperText={errors.password && "비밀번호를 입력해주세요."}
               onChange={() => clearErrors("password")}
@@ -116,14 +123,14 @@ export default function Write() {
             multiline={true}
             sx={{
               "& .MuiInputBase-root": {
-                minHeight: 100,
+                minHeight: 200,
               }
             }}
             error={!!errors.content}
             helperText={errors.content && "텍스트를 입력해주세요."}
             onChange={() => clearErrors("content")}
           />
-          <Button type="submit" variant="outlined" sx={{position: "relative", top: "auto", left: "calc(100% - 95px)", width: "95px"}}>작성하기</Button>
+          <Button type="submit" variant="contained" sx={{position: "relative", backgroundColor: "#9ABCFF", top: "auto", left: "calc(100% - 95px)", width: "95px", "&:hover": {backgroundColor: "#71A1FF"}}}>작성하기</Button>
 
           <Modal
             open={isLoading}

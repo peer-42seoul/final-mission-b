@@ -25,7 +25,7 @@ export default function Detail() {
       const loadeddata = await response.json();
       setData(loadeddata);
       
-      //setData(detailData);
+      // setData(detailData);
     } catch (error: any) {
       setError(error.message);
     }
@@ -58,6 +58,11 @@ export default function Detail() {
       else {
         router.push("/");
       }
+    })
+    .catch((error) => {
+      setPasswordError(true);
+      console.log("에러발생");
+      console.error(error);
     })
   }
 
@@ -119,8 +124,8 @@ export default function Detail() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDelete} type="submit">확인</Button>
           <Button onClick={handleAlertClose}>취소</Button>
+          <Button onClick={handleDelete} type="submit">확인</Button>
         </DialogActions>
       </Dialog>
     </div>
