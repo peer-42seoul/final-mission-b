@@ -82,6 +82,8 @@ export default function Home() {
               value={sortBy}
               label="Sort"
               onChange={(e) => setSortBy(e.target.value)}
+              style={{ height: "50px", fontSize: "15px"}}
+              
             >
               <MenuItem value={"lastest"}>최신순</MenuItem>
               <MenuItem value={"views"}>조회순</MenuItem>

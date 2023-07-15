@@ -1,9 +1,11 @@
 "use client"
-import { Box, CssBaseline, Toolbar, Stack, FormControl, FormHelperText, InputLabel, TextField, Select, MenuItem, Button, Modal, CircularProgress} from "@mui/material";
+import { Box, CssBaseline, Toolbar, Stack, FormControl, FormHelperText, InputLabel, TextField, Select, SelectChangeEvent, MenuItem, Button, Modal, CircularProgress} from "@mui/material";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { useForm } from 'react-hook-form';
+import { DetailData } from "@/components/types";
+import detailData from "../../detail/[id]/detailData.json"
 
 type FormData = {
   title: string,
@@ -13,19 +15,55 @@ type FormData = {
   content: string,
 };
 
-export default function Write() {
-  const { register, handleSubmit, formState: { errors }, clearErrors } = useForm<FormData>();
+export default function Edit() {
+  const { register, handleSubmit, formState: { errors }, clearErrors, setValue } = useForm<FormData>();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  
+  const pathname = usePathname();
+  const questionId = pathname.split('/')[2];
+  const [passwordError, setPasswordError] = useState(false);
+  const [data, setData] = useState<DetailData | null>(null);
+  const [error, setError] = useState(null);
+  const [dataCategory, setDataCategory] = useState("")
+
+  //기존 데이터 받기
+  async function getData() {
+    try {
+      console.log(`http://localhost:8080/v1/question/${questionId}`);
+      const response = await fetch(`http://localhost:8080/v1/question/${questionId}`);
+      const loadeddata = await response.json();
+      setData(loadeddata);
+
+      // setData(detailData);
+    }
+    catch (error: any) {
+      setError(error.message);
+    }
+    
+  }
+
+  useEffect(() => {
+    getData();
+  },[]);
+
+  useEffect(() => {
+    setValue("title", data?.title as string);
+    setDataCategory(data?.category as string);
+    setValue("category", data?.category as string);
+    setValue("nickname", data?.nickname as string);
+    setValue("content", data?.content as string);
+  },[data]);
+
+
+  //수정 요청보내기
   const onSubmit = async(data: FormData) => {
     setIsLoading(true);
     console.log("로딩시작");
     try {
-      const url = "http://localhost:8080/v1/question";
+      const url = `http://localhost:8080/v1/question/${questionId}`;
       console.log("submitting");
       const response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -33,13 +71,14 @@ export default function Write() {
       });
       
       if (response.ok) {
-        router.push("/");
+        router.push(`/detail/${questionId}`);
       }
       else {
-        throw new Error("질문 등록에 실패했습니다.");
+        setPasswordError(true);
       }
     }
     catch (error) {
+      //setPasswordError(true);
       console.log("에러발생");
       console.error(error);
     }
@@ -47,7 +86,6 @@ export default function Write() {
       console.log("로딩끝");
       setIsLoading(false);
     }
-    
   };
 
 
@@ -63,6 +101,11 @@ export default function Write() {
     router.push("/"+ query);
   };
 
+
+  const handleCategorySelect = (e: SelectChangeEvent) => {
+    setDataCategory(e.target.value)
+  }
+
   return (
     <Box sx={{display : "flex"}}>
       <CssBaseline /> 
@@ -72,6 +115,7 @@ export default function Write() {
         <Stack spacing={2} sx={{display: "flex", flexDirection: "column", position: "relative"}}>
           <TextField
             label="제목"
+            InputLabelProps={{ shrink: true }}
             {...register("title", {required: true})}
             error={!!errors.title}
             helperText={errors.title && "제목을 입력해주세요."}
@@ -82,8 +126,8 @@ export default function Write() {
             <Select
               label="category"
               {...register("category", {required: true})}
-              defaultValue={''}
-              onChange={() => clearErrors("category")}
+              onChange={handleCategorySelect}
+              value={dataCategory}
             >
               <MenuItem value={"minishell"}>minishell</MenuItem>
               <MenuItem value={"minirt"}>minirt</MenuItem>
@@ -94,23 +138,30 @@ export default function Write() {
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
             <TextField
               label="닉네임"
+              InputLabelProps={{ shrink: true }}
               {...register("nickname", {required: true})}
               sx={{width: "45%"}}
               error={!!errors.nickname}
               helperText={errors.nickname && "닉네임을 입력해주세요."}
               onChange={() => clearErrors("nickname")}
+              disabled
             />
             <TextField
               label="비밀번호"
               {...register("password", {required: true})}
               sx={{width: "45%"}}
-              error={!!errors.password}
-              helperText={errors.password && "비밀번호를 입력해주세요."}
-              onChange={() => clearErrors("password")}
+              error={!!errors.password || passwordError}
+              helperText={errors.password && "비밀번호를 입력해주세요." || passwordError && "올바른 비밀번호가 아닙니다."}
+              onChange={() => {
+                clearErrors("password");
+                setPasswordError(false);
+              }
+            }
             />
           </Box>
           <TextField
             label="내용"
+            InputLabelProps={{ shrink: true }}
             placeholder="내용을 입력해주세요."
             {...register("content", {required: true})}
             multiline={true}

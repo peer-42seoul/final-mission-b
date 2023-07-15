@@ -1,6 +1,6 @@
 "use client"
-import { AppBar, Divider, List, ListItem, ListItemText, Toolbar, Drawer, Box, Typography, ListItemButton, ListItemIcon, IconButton } from "@mui/material";
-import { useState, useEffect } from "react";
+import { AppBar, Divider, List, ListItem, ListItemText, Toolbar, Drawer, Box, Typography, ListItemButton, ListItemIcon, IconButton, Tooltip } from "@mui/material";
+import { useState } from "react";
 import { Numbers } from "@mui/icons-material";
 import  MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from '@mui/icons-material/Add';
@@ -125,9 +125,11 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
               <SearchInput onSearch={handleSearch} onBlur={handleBlur}/>
             </Box>
             <a href="/write" style={{ textDecoration: 'none', color: '#fff' }}>
-              <IconButton color="inherit">
-                <AddIcon />
-              </IconButton>
+              <Tooltip title="새 질문 쓰기">
+                <IconButton color="inherit">
+                  <AddIcon />
+                </IconButton>
+              </Tooltip>
             </a>
           </Toolbar>
         )}

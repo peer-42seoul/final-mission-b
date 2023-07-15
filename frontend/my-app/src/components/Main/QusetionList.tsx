@@ -1,7 +1,6 @@
 "use client"
 import { Box, List, ListItem, Link, Typography, Stack } from "@mui/material";
 import { Recommend, Pageview } from "@mui/icons-material";
-import { isInterfaceDeclaration } from "typescript";
 import { Question } from "../types";
 import dayjs from "dayjs";
 
