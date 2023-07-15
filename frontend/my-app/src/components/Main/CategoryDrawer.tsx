@@ -1,11 +1,8 @@
 "use client"
-import { AppBar, Divider, List, ListItem, ListItemText, Toolbar, Drawer, Box, Typography, ListItemButton, ListItemIcon, IconButton, Tooltip } from "@mui/material";
+import { AppBar, Divider, List, ListItem, ListItemText, Toolbar, Drawer, Box, Typography, ListItemButton, Button, IconButton } from "@mui/material";
 import { useState } from "react";
-import { Numbers } from "@mui/icons-material";
 import  MenuIcon from "@mui/icons-material/Menu";
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Link from "next/link";
 import SearchInput from "./SearchInput";
 import { useSearchParams } from 'next/navigation';
@@ -58,9 +55,9 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
 
   const drawer = (
     <div>
-      <Toolbar style={{ backgroundColor: "rgba(25, 117, 210, 0.8)"}}>
+      <Toolbar style={{ backgroundColor: "#9ABCFF"}}>
         <Link href="/" onClick={() => handleCategorySelect("")} style={{ textDecoration: 'none', color: '#fff'}}>
-          <strong>Peer-flow</strong>
+          <strong>Home</strong>
         </Link>
       </Toolbar>
       <Divider />
@@ -70,9 +67,8 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
             key={category}
             onClick={() => handleCategorySelect(category)}
           >
-            <ListItemButton>
-              <ListItemIcon><Numbers/></ListItemIcon>
-              <ListItemText sx={{ fontWeight: category === selectedCategory ? '700' : 'normal' }}>{category}</ListItemText>
+            <ListItemButton sx={{ backgroundColor: category === selectedCategory ? 'rgba(154, 188, 255, 0.2)' : '#fff', "&:hover": {backgroundColor: "rgba(154, 188, 255, 0.5)"} }}>
+              <ListItemText>{category}</ListItemText>
             </ListItemButton>
           </ListItem>
         ))}
@@ -88,14 +84,24 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
           width: {sm: `calc(100% - ${drawerWidth}px)`},
           ml: {sm: `${drawerWidth}px`},
         }}
+        elevation={0} 
       >
         {currentPage !== "/" ? (
-          <Toolbar sx={{ display: "flex"}}>
+          <Toolbar sx={{ display: "flex", backgroundColor: "#71A1FF"}}>
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
             <a href="/" style={{ textDecoration: "none", color: "#fff", position: "relative", left: "-10px"}}>
-              <IconButton color="inherit"><ArrowBackIosNewIcon/></IconButton></a>
+              <Button sx={{fontSize: "16px", padding: "10px"}} color="inherit"><span>&lt; Back</span></Button>
+            </a>
           </Toolbar>
         ) : (
-          <Toolbar sx={{ justifyContent: "space-between"}}>
+          <Toolbar sx={{ justifyContent: "space-between", backgroundColor: "#71A1FF"}}>
             <IconButton
               color="inherit"
               edge="start"
@@ -114,7 +120,7 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
                 <SearchInput onSearch={handleSearch} onBlur={handleBlur}/>
               ) : (
                 <IconButton color="inherit" onClick={toggleSearchInput}>
-                  <SearchIcon />
+                  <SearchIcon style={{fontSize: "20px"}}/>
                 </IconButton>
               )}
             </Box>
@@ -125,11 +131,9 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
               <SearchInput onSearch={handleSearch} onBlur={handleBlur}/>
             </Box>
             <a href="/write" style={{ textDecoration: 'none', color: '#fff' }}>
-              <Tooltip title="새 질문 쓰기">
-                <IconButton color="inherit">
-                  <AddIcon />
-                </IconButton>
-              </Tooltip>
+              <Button color="inherit">
+                <span style={{width: "55px", fontSize: "14px"}}>+ 새 질문</span>
+              </Button>
             </a>
           </Toolbar>
         )}
@@ -144,7 +148,7 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
           onClose={handleDrawerToggle}
           sx={{
             display: {xs: 'block', sm: 'none'},
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth},
           }}
         >
           {drawer}

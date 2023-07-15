@@ -1,16 +1,15 @@
-
 {
     "content": [
         {
             "questionId": 0,
-            "title": "test2",
-            "answerCount": 0,
-            "category": "minishell",
-            "recommend": 0,
-            "view": 0,
-            "nickname": "test nick2",
-            "createAt": "2023-07-02T15:02:59.802146",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae sem non ligula pellentesque fringilla. Mauris sed justo urna.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae sem non ligula pellentesque fringilla. Mauris sed justo urna.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae sem non ligula pellentesque fringilla. Mauris sed justo urna."
+            "title" : "궁금합니다",
+            "answerCount": 2,
+            "category" : "ft_irc",
+            "recommend" : 7,
+            "view" : 15,
+            "nickname": "woorikim",
+            "createAt" : "2023-06-30T10:15:47.192831",
+            "content" : "질문 내용~~~~~~~~~~~~~~~~~~~~"
         },
         {
             "questionId": 1,
