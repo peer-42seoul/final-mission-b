@@ -5,11 +5,14 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
+interface DetailBoxProps {
+  item: DetailData | null;
+  onDeleteControl: () => void;
+  onEditControl: () => void;
+}
 
-const DetailBox: React.FC<{ item: DetailData | null, onDeleteControl: () => void }> = (props) => {
-  const [password, setPassword] = useState("");
-  const [openAlert, setOpenAlert] = useState(false);
-  const pathname = usePathname();
+const DetailBox: React.FC<DetailBoxProps> = (props) => {
+  
 
   function formatDateTime (datetime: string) {
     const date = new Date(datetime);
@@ -27,6 +30,10 @@ const DetailBox: React.FC<{ item: DetailData | null, onDeleteControl: () => void
 
   const handleDeleteControl = () => {
     props.onDeleteControl();
+  }
+  
+  const handleEditControl = () => {
+    props.onEditControl();
   }
 
   return (
@@ -50,7 +57,7 @@ const DetailBox: React.FC<{ item: DetailData | null, onDeleteControl: () => void
             <Typography variant="h6">작성일: {formattedCreatedAt}</Typography>
             {formattedUpdatedAt ? <Typography variant="h6">수정일: {formattedUpdatedAt}</Typography>: null}
             <Box sx={{position: "absolute", right: "0", bottom: "0"}}>
-              <IconButton><Edit color="action" sx={{fontSize: "20px"}}/></IconButton>
+              <IconButton onClick={handleEditControl}><Edit color="action" sx={{fontSize: "20px"}}/></IconButton>
               <IconButton onClick={handleDeleteControl}><Delete color="action" sx={{fontSize: "20px"}}/></IconButton>
             </Box>
           </Box>

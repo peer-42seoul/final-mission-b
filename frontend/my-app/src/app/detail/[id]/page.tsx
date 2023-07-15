@@ -24,8 +24,8 @@ export default function Detail() {
       const response = await fetch(`http://localhost:8080/v1/question/${questionId}`);
       const loadeddata = await response.json();
       setData(loadeddata);
-      // setData(detailData);
-
+      
+      //setData(detailData);
     } catch (error: any) {
       setError(error.message);
     }
@@ -83,12 +83,16 @@ export default function Detail() {
     setOpenAlert(true);
   };
 
+  const handleEdit = () => {
+    router.push(`/edit/${questionId}`);
+  };
+
   return (
     <div>
       <Box sx={{display : "flex", position: "relative"}}>
         <CssBaseline /> 
         <CategoryDrawer onCategorySearch={handleCategorySearch} />
-        <DetailBox item={data} onDeleteControl={handleOpenAlert}/>
+        <DetailBox item={data} onDeleteControl={handleOpenAlert} onEditControl={handleEdit}/>
       </Box>
       <Dialog open={openAlert} onClose={handleAlertClose}>
         <DialogTitle>글 삭제</DialogTitle>
