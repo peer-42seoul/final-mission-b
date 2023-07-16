@@ -65,6 +65,21 @@ export default function Detail() {
     })
   }
 
+  const handleRecommend = () => {
+    fetch(`http://localhost:8080/v1/question/recommend/${questionId}`, {
+      method: "PUT",
+    })
+    .then(() => {
+      console.log("추천!");
+      getData();
+    })
+    .catch((error) => {
+      //setPasswordError(true);
+      console.log("에러발생");
+      console.error(error);
+    })
+  }
+
   const handleAlertClose = () => {
     setOpenAlert(false);
   }
@@ -74,6 +89,7 @@ export default function Detail() {
     if (passwordError) {
       setPasswordError(false);
     }
+
   };
 
   const handleCategorySearch = (category: string, search: string) => {
@@ -96,7 +112,7 @@ export default function Detail() {
       <Box sx={{display : "flex", position: "relative"}}>
         <CssBaseline /> 
         <CategoryDrawer onCategorySearch={handleCategorySearch} />
-        <DetailBox item={data} onDeleteControl={handleOpenAlert} onEditControl={handleEdit}/>
+        <DetailBox item={data} onDeleteControl={handleOpenAlert} onEditControl={handleEdit} onRecommendControl={handleRecommend}/>
       </Box>
       <Dialog open={openAlert} onClose={handleAlertClose}>
         <DialogTitle>글 삭제</DialogTitle>
