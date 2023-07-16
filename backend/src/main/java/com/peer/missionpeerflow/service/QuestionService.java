@@ -1,6 +1,7 @@
 package com.peer.missionpeerflow.service;
 
 import com.peer.missionpeerflow.dto.request.QuestionPostDto;
+import com.peer.missionpeerflow.dto.request.QuestionPutDto;
 import com.peer.missionpeerflow.dto.response.QuestionDetailDto;
 import com.peer.missionpeerflow.dto.response.QuestionListElementDto;
 import com.peer.missionpeerflow.entity.Question;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
@@ -30,7 +32,6 @@ public class QuestionService {
         };
     }
 
-    @Transactional
     public Question findQuestion(Long questionId) {
         Optional<Question> questionOptional = this.questionRepository.findById(questionId);
         if (questionOptional.isEmpty()) {
@@ -65,30 +66,35 @@ public class QuestionService {
         this.questionRepository.save(question);
     }
 
-    @Transactional
     public QuestionDetailDto getDetail(Long questionId) {
         Question question = findQuestion(questionId);
         question.setView(question.getView() + 1L);
         return new QuestionDetailDto(question);
     }
 
-    @Transactional
-    public void modify(Long questionId, QuestionPostDto questionPost) {
+    public void modify(Long questionId, QuestionPutDto questionPut) {
         Question question = findQuestion(questionId);
-        questionPost.updateQuestion(question);
+        String currentNickname = question.getNickname();
+        String inputNickname = questionPut.getNickname();
+        String currentPassword = question.getPassword();
+        String inputPassword = questionPut.getPassword();
+        if (!currentNickname.equals(inputNickname) ||
+            !currentPassword.equals(inputPassword)) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+        questionPut.toQuestion(question);
         this.questionRepository.save(question);
     }
 
-    @Transactional
     public void delete(Long questionId, String password) {
         Question question = findQuestion(questionId);
-        if (!password.equals(question.getPassword())) {
-            throw new RuntimeException("패스워드가 일치하지 않습니다.");
+        String currentPassword = question.getPassword();
+        if (!currentPassword.equals(password)) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
         this.questionRepository.delete(question);
     }
 
-    @Transactional
     public void like(Long questoinId) {
         Question question = findQuestion(questoinId);
         question.setRecommend(question.getRecommend() + 1L);

@@ -28,13 +28,4 @@ public class QuestionPostDto {
         question.setCreatedAt(this.getCreateAt());
         return question;
     }
-
-    public void updateQuestion(Question question) {
-        question.setTitle(this.getTitle());
-        question.setContent(this.getContent());
-        question.setNickname(this.getNickname());
-        question.setPassword(this.getPassword());
-        question.setCategory(Category.ofType(this.getCategory()));
-        question.setUpdatedAt(this.getCreateAt());
-    }
 }
