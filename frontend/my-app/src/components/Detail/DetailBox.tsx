@@ -51,8 +51,8 @@ const DetailBox: React.FC<DetailBoxProps> = (props) => {
     setAnchorEl(null);
   };
 
-  const handleRecommend = () = {
-    props.onRecommendControl()
+  const handleRecommend = () => {
+    props.onRecommendControl();
   }
 
   return (
