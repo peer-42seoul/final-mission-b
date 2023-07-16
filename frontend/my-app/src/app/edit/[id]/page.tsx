@@ -48,8 +48,8 @@ export default function Edit() {
 
   useEffect(() => {
     setValue("title", data?.title as string);
-    setDataCategory(data?.category as string);
     setValue("category", data?.category as string);
+    setDataCategory(data?.category as string);
     setValue("nickname", data?.nickname as string);
     setValue("content", data?.content as string);
   },[data]);
@@ -128,9 +128,9 @@ export default function Edit() {
               <Select
                 label="category"
                 {...register("category", {required: true})}
-                defaultValue={''}
                 onChange={() => clearErrors("category")}
                 style={{height: "45px", fontSize: "14px"}}
+                defaultValue={data?.category}
               >
                 <MenuItem value={"minishell"}>minishell</MenuItem>
                 <MenuItem value={"minirt"}>minirt</MenuItem>

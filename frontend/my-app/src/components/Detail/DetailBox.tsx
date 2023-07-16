@@ -104,7 +104,7 @@ const DetailBox: React.FC<DetailBoxProps> = (props) => {
             {props.item?.content}
           </Box>
           <Box sx={{display: "flex", width: "100%", padding: "10px", justifyContent: "flex-end"}}>
-            <Button sx={{fontSize: "14px", color: "#71A1FF"}} endIcon={<ThumbUpIcon/>}>추천 {props.item?.recommend} onClick={handleRecommend}</Button>
+            <Button sx={{fontSize: "14px", color: "#71A1FF"}} endIcon={<ThumbUpIcon/>} onClick={handleRecommend}>추천 {props.item?.recommend}</Button>
           </Box>
           <Box sx={{ display: "flex", width: "100%", margin: "10px 0", justifyContent: "center"}}>
             <Button variant="outlined" sx={{width: "100%", color: "#71A1FF", borderColor: "#71A1FF"}} startIcon={<InsertCommentIcon/>}>댓글</Button>

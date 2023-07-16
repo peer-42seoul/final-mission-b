@@ -65,6 +65,7 @@ export default function Detail() {
     })
   }
 
+  //추천
   const handleRecommend = () => {
     fetch(`http://localhost:8080/v1/question/recommend/${questionId}`, {
       method: "PUT",
