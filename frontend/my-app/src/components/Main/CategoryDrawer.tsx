@@ -67,7 +67,7 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
             key={category}
             onClick={() => handleCategorySelect(category)}
           >
-            <ListItemButton sx={{ backgroundColor: category === selectedCategory ? 'rgba(154, 188, 255, 0.2)' : '#fff', "&:hover": {backgroundColor: "rgba(154, 188, 255, 0.5)"} }}>
+            <ListItemButton sx={{ width: "100%", borderRadius: "4px", padding: "8px 16px", backgroundColor: category === selectedCategory ? 'rgba(154, 188, 255, 0.2)' : '#fff', "&:hover": {backgroundColor: "rgba(154, 188, 255, 0.5)"} }}>
               <ListItemText>{category}</ListItemText>
             </ListItemButton>
           </ListItem>

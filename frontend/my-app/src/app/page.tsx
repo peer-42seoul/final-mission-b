@@ -1,24 +1,38 @@
 "use client"
 import QuestionList from "@/components/Main/QusetionList";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
-import { Box, CssBaseline, Toolbar, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
+import { Box, CssBaseline, Toolbar, FormControl, InputLabel, Select, MenuItem, Typography, Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Question, Pageable, MainData } from "@/components/types";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import CheckIcon from '@mui/icons-material/Check';
 
 import mainData from './main.json';
 import categoryData from './category.json';
+
+
 
 
 export default function Home() {
   const [data, setData] = useState<MainData | null>(null);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("lastest");
   const [searchContent, setSearchContent] = useState("");
   const [pageIndex , setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+
+  const CustomRadio = (props: any) => {
+    return (
+      <Radio
+        checkedIcon={<CheckIcon />}
+        icon={<span />}
+        sx={{"&.Mui-checked": {color: "#71A1FF"} }}
+        {...props}
+      />
+    );
+  };
 
   //데이터 로드 함수
   async function getData() {
@@ -37,17 +51,17 @@ export default function Home() {
       console.log(query);
 
 
-      // if (selectedCategory === "") {
-      //  setData(mainData);
-      // }
-      // else {
-      //  setData(categoryData[selectedCategory]);
-      // }
+       if (selectedCategory === "") {
+        setData(mainData);
+       }
+       else {
+        setData(categoryData[selectedCategory]);
+       }
 
 
-      const response = await fetch(urlPath + query);
-      const loadeddata = await response.json();
-      setData(loadeddata);
+      //const response = await fetch(urlPath + query);
+      //const loadeddata = await response.json();
+      //setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
@@ -77,19 +91,34 @@ export default function Home() {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
       >
         <Toolbar/>
-        <Box sx={{ display: "flex", padding: "0 16px 8px 8px", alignItems:"center", justifyContent: "space-between" }}>
-          <FormControl sx={{ m: 1, minWidth: 150 }}>
-            <InputLabel sx={{fontSize: "14px"}}>Sort</InputLabel>
-            <Select
+        <Box mt={2} sx={{ display: "flex", padding: "0 16px 8px 16px", alignItems:"center", justifyContent: "space-between" }}>
+          <FormControl>
+            <RadioGroup
+              row
+              aria-label="Sort"
               value={sortBy}
-              label="Sort"
               onChange={(e) => setSortBy(e.target.value)}
-              style={{height: "45px", fontSize: "14px"}}
+              sx={{}}
             >
-              <MenuItem value={"lastest"}>최신순</MenuItem>
-              <MenuItem value={"views"}>조회순</MenuItem>
-              <MenuItem value={"recommends"}>추천순</MenuItem>
-            </Select>
+              <FormControlLabel 
+                value="lastest" 
+                control={<CustomRadio />} 
+                label="최신순"
+                sx={{"span" : {fontSize: sortBy !== 'lastest' ? '13px' : '16px'}, "&.MuiFormControlLabel-root": {marginRight: "0"}}}
+              />
+              <FormControlLabel 
+                value="views" 
+                control={<CustomRadio />} 
+                label="조회순"
+                sx={{"span" : {fontSize: sortBy !== 'views' ? '13px' : '16px'}, "&.MuiFormControlLabel-root": {marginRight: "0"}}}
+              />
+              <FormControlLabel 
+                value="recommends" 
+                control={<CustomRadio />} 
+                label="추천순"
+                sx={{"span" : {fontSize: sortBy !== 'recommends' ? '13px' : '16px'}, "&.MuiFormControlLabel-root": {marginRight: "0"}}}
+              />
+            </RadioGroup>
           </FormControl>
           <Typography sx={{ fontSize: "13px"}}>총 {data?.numberOfElements}개의 글 / {data?.size}개씩 보기</Typography>
         </Box>
