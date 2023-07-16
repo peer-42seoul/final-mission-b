@@ -69,7 +69,6 @@ export default function Edit() {
         },
         body: JSON.stringify(data),
       });
-      
       if (response.ok) {
         router.push(`/detail/${questionId}`);
       }

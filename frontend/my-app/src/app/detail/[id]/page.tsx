@@ -49,18 +49,17 @@ export default function Detail() {
       },
       body: JSON.stringify(requestData),
     })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error === "비밀번호가 일치하지 않습니다.") {
+    .then((response) => {
+      if (response.ok) {
+        router.push("/");
+      }
+      else {
         setPasswordError(true);
         setPassword("");
       }
-      else {
-        router.push("/");
-      }
     })
     .catch((error) => {
-      setPasswordError(true);
+      //setPasswordError(true);
       console.log("에러발생");
       console.error(error);
     })
