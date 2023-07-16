@@ -1,5 +1,5 @@
 "use client"
-import { Box, CssBaseline, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, TextField, Button } from "@mui/material";
+import { Box, CssBaseline, Stack, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, TextField, Button } from "@mui/material";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";

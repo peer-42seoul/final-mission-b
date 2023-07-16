@@ -1,7 +1,7 @@
 "use client"
 import QuestionList from "@/components/Main/QusetionList";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
-import { Box, CssBaseline, Toolbar, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
+import { Box, CssBaseline, Toolbar, FormControl, RadioGroup, FormControlLabel, Radio, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Question, Pageable, MainData } from "@/components/types";
 import Pagination from '@mui/material/Pagination';
@@ -9,13 +9,25 @@ import Stack from '@mui/material/Stack';
 
 import mainData from './main.json';
 import categoryData from './category.json';
+import CheckIcon from '@mui/icons-material/Check';
+
+const CustomRadio = (props: any) => {
+  return (
+    <Radio
+      checkedIcon={<CheckIcon sx={{fontSize: "16px"}}/>}
+      icon={<span>&nbsp;&nbsp;</span>}
+      sx={{"&.Mui-checked": {color: "#71A1FF"} }}
+      {...props}
+    />
+  );
+};
 
 
 export default function Home() {
   const [data, setData] = useState<MainData | null>(null);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("lastest");
   const [searchContent, setSearchContent] = useState("");
   const [pageIndex , setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -74,22 +86,49 @@ export default function Home() {
       <CategoryDrawer onCategorySearch={handleCategorySearch}/>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
+        sx={{ flexGrow: 1, p: {xs: 1, sm: 3}, width: { sm: `calc(100% - 240px)` } }}
       >
         <Toolbar/>
-        <Box sx={{ display: "flex", padding: "0 16px 8px 8px", alignItems:"center", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", padding: "0 16px 8px 16px", alignItems:"center", justifyContent: "space-between" }}>
           <FormControl sx={{ m: 1, minWidth: 150 }}>
-            <InputLabel sx={{fontSize: "14px"}}>Sort</InputLabel>
-            <Select
+            <RadioGroup
+              row
+              aria-label="Sort"
               value={sortBy}
-              label="Sort"
               onChange={(e) => setSortBy(e.target.value)}
-              style={{height: "45px", fontSize: "14px"}}
+              sx={{height: "40px", fontSize: "14px"}}
             >
-              <MenuItem value={"lastest"}>최신순</MenuItem>
-              <MenuItem value={"views"}>조회순</MenuItem>
-              <MenuItem value={"recommends"}>추천순</MenuItem>
-            </Select>
+              <FormControlLabel 
+                value="lastest" 
+                control={<CustomRadio />} 
+                label="최신순"
+                sx={{"span" : {
+                  fontSize:'13px',
+                  padding: "0",
+                  fontWeight: sortBy !== 'lastest' ? 'normal' : 'bold',
+                }}}
+              />
+              <FormControlLabel 
+                value="views" 
+                control={<CustomRadio />} 
+                label="조회순"
+                sx={{"span" : {
+                  fontSize:'13px',
+                  padding: "0",
+                  fontWeight: sortBy !== 'views' ? 'normal' : 'bold'
+                }}}
+              />
+              <FormControlLabel 
+                value="recommends" 
+                control={<CustomRadio />} 
+                label="추천순"
+                sx={{"span" : {
+                  fontSize:'13px',
+                  padding: "0",
+                  fontWeight: sortBy !== 'recommends' ? 'normal' : 'bold'
+                }}}
+              />
+            </RadioGroup>
           </FormControl>
           <Typography sx={{ fontSize: "13px"}}>총 {data?.numberOfElements}개의 글 / {data?.size}개씩 보기</Typography>
         </Box>

@@ -92,12 +92,12 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
               color="inherit"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
+              sx={{marginRight: "10px", display: { sm: 'none' }, borderRadius: "0"}}
             >
               <MenuIcon />
             </IconButton>
             <a href="/" style={{ textDecoration: "none", color: "#fff", position: "relative", left: "-10px"}}>
-              <Button sx={{fontSize: "16px", padding: "10px"}} color="inherit"><span>&lt; Back</span></Button>
+              <Button sx={{fontSize: "12px", fontWeight: "bold", padding: "10px"}} color="inherit"><span>&lt; Back</span></Button>
             </a>
           </Toolbar>
         ) : (
@@ -112,7 +112,7 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
             </IconButton>
             <Box sx={{ display: {xs: "flex", sm: "none"}, width: "100%", justifyContent: "space-between", alignItems: "center"}}>
               {!showSearchInput ? (
-                <Typography variant="h6" sx={{ fontSize: "18px" }}>
+                <Typography variant="h6" sx={{fontSize: "18px"}}>
                   {selectedCategory ? selectedCategory : '전체보기'}
                 </Typography>
               ): null}
@@ -131,8 +131,8 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
               <SearchInput onSearch={handleSearch} onBlur={handleBlur}/>
             </Box>
             <a href="/write" style={{ textDecoration: 'none', color: '#fff' }}>
-              <Button color="inherit">
-                <span style={{width: "55px", fontSize: "14px"}}>+ 새 질문</span>
+              <Button color="inherit" sx={{width: "80px"}}>
+                <span style={{display: "flex", fontSize: "14px"}}>+ 새 질문</span>
               </Button>
             </a>
           </Toolbar>
