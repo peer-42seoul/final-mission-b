@@ -15,7 +15,7 @@ public class QuestionDetailDto {
     private String category;
     private String nickname;
     private String title;
-    private String contnet;
+    private String content;
     private String createdAt;
     private String updatedAt = null;
     private Long recommend = 0L;
@@ -26,7 +26,7 @@ public class QuestionDetailDto {
         this.category = question.getCategory().getType();
         this.nickname = question.getNickname();
         this.title = question.getTitle();
-        this.contnet = question.getContent();
+        this.content = question.getContent();
         this.createdAt = question.getCreatedAt().toString();
         if (question.getUpdatedAt() != null) {
             this.updatedAt = question.getUpdatedAt().toString();
