@@ -52,8 +52,8 @@ public class QuestionController {
     }
 
     @PostMapping("/question")
-    public boolean create(@RequestBody QuestionPostDto newQuestionDto) {
-        this.questionService.post((newQuestionDto));
+    public boolean create(@RequestBody QuestionPostDto newQuestion) {
+        this.questionService.post(newQuestion);
         return true;
     }
 

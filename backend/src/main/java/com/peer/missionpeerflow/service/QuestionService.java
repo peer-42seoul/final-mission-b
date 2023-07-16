@@ -15,10 +15,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.Optional;
 
 @Service
@@ -28,12 +24,9 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     private Specification<Question> search(String keyword) {
-        return new Specification<Question>() {
-            @Override
-            public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                query.distinct(true);
-                return criteriaBuilder.like(root.get("title"), "%" + keyword + "%");
-            }
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            return criteriaBuilder.like(root.get("title"), "%" + keyword + "%");
         };
     }
 
