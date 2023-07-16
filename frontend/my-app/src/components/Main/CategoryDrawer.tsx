@@ -112,7 +112,7 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
             </IconButton>
             <Box sx={{ display: {xs: "flex", sm: "none"}, width: "100%", justifyContent: "space-between", alignItems: "center"}}>
               {!showSearchInput ? (
-                <Typography variant="h6" sx={{ fontSize: "18px" }}>
+                <Typography variant="h6" sx={{fontSize: "18px"}}>
                   {selectedCategory ? selectedCategory : '전체보기'}
                 </Typography>
               ): null}
@@ -131,8 +131,8 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
               <SearchInput onSearch={handleSearch} onBlur={handleBlur}/>
             </Box>
             <a href="/write" style={{ textDecoration: 'none', color: '#fff' }}>
-              <Button color="inherit">
-                <span style={{width: "55px", fontSize: "14px"}}>+ 새 질문</span>
+              <Button color="inherit" sx={{width: "80px"}}>
+                <span style={{display: "flex", fontSize: "14px"}}>+ 새 질문</span>
               </Button>
             </a>
           </Toolbar>

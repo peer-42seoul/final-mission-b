@@ -7,8 +7,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import { Rowdies } from "next/font/google";
 
 interface DetailBoxProps {
   item: DetailData | null;
@@ -18,7 +19,7 @@ interface DetailBoxProps {
 }
 
 const DetailBox: React.FC<DetailBoxProps> = (props) => {
-  
+  const [comments, setComment] = useState(0);
 
   function formatDateTime (datetime: string) {
     const date = new Date(datetime);
@@ -62,7 +63,7 @@ const DetailBox: React.FC<DetailBoxProps> = (props) => {
         spacing={2}
         sx={{ display: "flex", flexDirection: "column", position: "relative" }}
       >
-        <Box sx={{ width: "100%", marginBottom: "10px", border: "1px solid rgba(0, 0, 0, 0.1)", padding: "24px 20px", borderRadius: "4px"}}>
+        <Box sx={{ width: "100%", marginBottom: "10px", border: "1px solid rgba(0, 0, 0, 0.1)", padding: "24px 20px 12px 20px", borderRadius: "4px"}}>
           <Typography variant="h4" mb={2}sx={{display: "flex", alignItems: "flex-start"}}>
             <strong style={{color: "#9ABCFF", display: "flex", alignItems: "center"}} ><LiveHelpIcon sx={{fontSize:"30px"}}/>&nbsp;</strong>
             <strong style={{color: "#5f5f5f"}}>{props.item?.title}</strong>
@@ -73,10 +74,10 @@ const DetailBox: React.FC<DetailBoxProps> = (props) => {
           <Box mt={5} mb={2} sx={{position: "relative"}}>
             <Typography mb={1} variant="body1" sx={{display: "flex", color: "#9ABCFF", fontWeight: "600"}}><PersonIcon/> {props.item?.nickname}</Typography>
             <Box sx={{display: "flex", padding: "5px"}}>
-              <Typography variant="body1">조회수 {props.item?.view}</Typography>
-              <Typography variant="body1">&nbsp;&#8226;  작성일: {formattedCreatedAt}</Typography>
+              <Typography variant="body2">조회수 {props.item?.view}</Typography>
+              <Typography variant="body2">&nbsp;&#8226;  작성일: {formattedCreatedAt} </Typography>
+              {formattedUpdatedAt ? <Typography variant="body2">&nbsp;&#8226;  수정일: {formattedUpdatedAt}</Typography>: null}
             </Box>
-            {formattedUpdatedAt ? <Typography variant="h6">&nbsp;&#8226;  수정일: {formattedUpdatedAt}</Typography>: null}
             <IconButton
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
@@ -103,13 +104,16 @@ const DetailBox: React.FC<DetailBoxProps> = (props) => {
           <Box sx={{padding: "40px 10px"}}>
             {props.item?.content}
           </Box>
-          <Box sx={{display: "flex", width: "100%", padding: "10px", justifyContent: "flex-end"}}>
+          <Box mt={2} sx={{display: "flex", width: "100%", justifyContent: "flex-end"}}>
             <Button sx={{fontSize: "14px", color: "#71A1FF"}} endIcon={<ThumbUpIcon/>} onClick={handleRecommend}>추천 {props.item?.recommend}</Button>
           </Box>
-          <Box sx={{ display: "flex", width: "100%", margin: "10px 0", justifyContent: "center"}}>
-            <Button variant="outlined" sx={{width: "100%", color: "#71A1FF", borderColor: "#71A1FF"}} startIcon={<InsertCommentIcon/>}>댓글</Button>
-          </Box>
         </Box>
+      </Stack>
+      <Stack sx={{ display: "flex", flexDirection: "column", marin: "20px", border: "1px solid rgba(0, 0, 0, 0.1)", padding: "24px 20px", borderRadius: "4px"}}>
+        <Box>
+          <Button sx={{display: "flex", color: "#71A1FF", borderColor: "#71A1FF"}} startIcon={<InsertCommentIcon/>}>댓글 ({comments})</Button>
+        </Box>
+        <Divider/>
       </Stack>
     </Box>
   );

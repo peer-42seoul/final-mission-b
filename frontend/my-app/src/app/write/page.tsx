@@ -67,9 +67,9 @@ export default function Write() {
     <Box sx={{display : "flex"}}>
       <CssBaseline /> 
       <CategoryDrawer onCategorySearch={handleCategorySearch} />
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` }}}>
+      <Box onSubmit={handleSubmit(onSubmit)} sx={{ flexGrow: 1, p: 3, maxWidth: { sm: `calc(100% - 240px)` }}}>
         <Toolbar/>
-        <Stack spacing={2} sx={{display: "flex", flexDirection: "column", position: "relative"}}>
+        <Stack spacing={2} sx={{display: "flex", width: "100%", flexDirection: "column", position: "relative"}}>
           <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "flex-end"}}>
             <TextField
               variant="standard"

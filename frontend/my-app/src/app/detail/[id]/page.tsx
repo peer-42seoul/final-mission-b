@@ -1,5 +1,5 @@
 "use client"
-import { Box, CssBaseline, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, TextField, Button } from "@mui/material";
+import { Box, CssBaseline, Stack, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, TextField, Button } from "@mui/material";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -21,11 +21,11 @@ export default function Detail() {
   async function getData() {
     try {
       console.log(`http://localhost:8080/v1/question/${questionId}`);
-      const response = await fetch(`http://localhost:8080/v1/question/${questionId}`);
-      const loadeddata = await response.json();
-      setData(loadeddata);
+      // const response = await fetch(`http://localhost:8080/v1/question/${questionId}`);
+      // const loadeddata = await response.json();
+      // setData(loadeddata);
       
-      // setData(detailData);
+      setData(detailData);
     } catch (error: any) {
       setError(error.message);
     }
