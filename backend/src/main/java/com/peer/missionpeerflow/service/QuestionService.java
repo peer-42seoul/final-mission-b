@@ -5,6 +5,7 @@ import com.peer.missionpeerflow.dto.request.QuestionPutDto;
 import com.peer.missionpeerflow.dto.response.QuestionDetailDto;
 import com.peer.missionpeerflow.dto.response.QuestionListElementDto;
 import com.peer.missionpeerflow.entity.Question;
+import com.peer.missionpeerflow.exception.PasswordWrongException;
 import com.peer.missionpeerflow.repository.QuestionRepository;
 import com.peer.missionpeerflow.util.Category;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private Specification<Question> search(String keyword) {
         return (root, query, criteriaBuilder) -> {
@@ -62,6 +65,8 @@ public class QuestionService {
     }
 
     public void post(QuestionPostDto questionPost) {
+        String endcodePassword = passwordEncoder.encode(questionPost.getPassword());
+        questionPost.setPassword(endcodePassword);
         Question question = questionPost.toQuestion();
         this.questionRepository.save(question);
     }
@@ -74,13 +79,9 @@ public class QuestionService {
 
     public void modify(Long questionId, QuestionPutDto questionPut) {
         Question question = findQuestion(questionId);
-        String currentNickname = question.getNickname();
-        String inputNickname = questionPut.getNickname();
-        String currentPassword = question.getPassword();
-        String inputPassword = questionPut.getPassword();
-        if (!currentNickname.equals(inputNickname) ||
-            !currentPassword.equals(inputPassword)) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        if (!question.getNickname().equals(questionPut.getNickname()) ||
+            !passwordEncoder.matches(questionPut.getPassword(), question.getPassword())) {
+            throw new PasswordWrongException();
         }
         questionPut.toQuestion(question);
         this.questionRepository.save(question);
@@ -88,9 +89,8 @@ public class QuestionService {
 
     public void delete(Long questionId, String password) {
         Question question = findQuestion(questionId);
-        String currentPassword = question.getPassword();
-        if (!currentPassword.equals(password)) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        if (!passwordEncoder.matches(password, question.getPassword())) {
+            throw new PasswordWrongException();
         }
         this.questionRepository.delete(question);
     }

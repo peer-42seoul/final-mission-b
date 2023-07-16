@@ -5,6 +5,7 @@ import com.peer.missionpeerflow.util.Category;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,6 +14,7 @@ public class QuestionPostDto {
 
     String title;
     String nickname;
+    @Column(columnDefinition = "t")
     String password;
     String category;
     String content;

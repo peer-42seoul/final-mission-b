@@ -20,7 +20,7 @@ public abstract class BaseEntity {
 	@Column(nullable = false, columnDefinition = "VARCHAR(10)")
 	protected String nickname;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(10)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(2048)")
 	protected String password;
 
 	@Column(nullable = false, columnDefinition = "TEXT")
