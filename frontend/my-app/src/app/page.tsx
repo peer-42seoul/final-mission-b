@@ -49,17 +49,17 @@ export default function Home() {
       console.log(query);
 
 
-      if (selectedCategory === "") {
-       setData(mainData);
-      }
-      else {
-       setData(categoryData[selectedCategory]);
-      }
+      // if (selectedCategory === "") {
+      //  setData(mainData);
+      // }
+      // else {
+      //  setData(categoryData[selectedCategory]);
+      // }
 
 
-      // const response = await fetch(urlPath + query);
-      // const loadeddata = await response.json();
-      // setData(loadeddata);
+      const response = await fetch(urlPath + query);
+      const loadeddata = await response.json();
+      setData(loadeddata);
     } catch (error: any) {
       setError(error.message);
     }
@@ -103,7 +103,7 @@ export default function Home() {
                 control={<CustomRadio />} 
                 label="최신순"
                 sx={{"span" : {
-                  fontSize: sortBy !== 'lastest' ? '13px' : '14px', 
+                  fontSize:'13px',
                   padding: "0",
                   fontWeight: sortBy !== 'lastest' ? 'normal' : 'bold',
                 }}}
@@ -113,7 +113,7 @@ export default function Home() {
                 control={<CustomRadio />} 
                 label="조회순"
                 sx={{"span" : {
-                  fontSize: sortBy !== 'views' ? '13px' : '14px', 
+                  fontSize:'13px',
                   padding: "0",
                   fontWeight: sortBy !== 'views' ? 'normal' : 'bold'
                 }}}
@@ -123,7 +123,7 @@ export default function Home() {
                 control={<CustomRadio />} 
                 label="추천순"
                 sx={{"span" : {
-                  fontSize: sortBy !== 'recommends' ? '13px' : '14px',
+                  fontSize:'13px',
                   padding: "0",
                   fontWeight: sortBy !== 'recommends' ? 'normal' : 'bold'
                 }}}

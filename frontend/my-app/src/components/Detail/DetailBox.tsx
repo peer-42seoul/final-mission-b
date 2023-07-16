@@ -76,8 +76,8 @@ const DetailBox: React.FC<DetailBoxProps> = (props) => {
             <Box sx={{display: "flex", padding: "5px"}}>
               <Typography variant="body2">조회수 {props.item?.view}</Typography>
               <Typography variant="body2">&nbsp;&#8226;  작성일: {formattedCreatedAt} </Typography>
-              {formattedUpdatedAt ? <Typography variant="body2">&nbsp;&#8226;  수정일: {formattedUpdatedAt}</Typography>: null}
             </Box>
+              {formattedUpdatedAt ? <Typography variant="body2" ml={"5px"} sx={{lineHeight: "5px"}}><br/>수정일: {formattedUpdatedAt}</Typography>: null}
             <IconButton
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"

@@ -92,12 +92,12 @@ function CategoryDrawer({ onCategorySearch }: {onCategorySearch: (category: stri
               color="inherit"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
+              sx={{marginRight: "10px", display: { sm: 'none' }, borderRadius: "0"}}
             >
               <MenuIcon />
             </IconButton>
             <a href="/" style={{ textDecoration: "none", color: "#fff", position: "relative", left: "-10px"}}>
-              <Button sx={{fontSize: "16px", padding: "10px"}} color="inherit"><span>&lt; Back</span></Button>
+              <Button sx={{fontSize: "12px", fontWeight: "bold", padding: "10px"}} color="inherit"><span>&lt; Back</span></Button>
             </a>
           </Toolbar>
         ) : (

@@ -1,5 +1,5 @@
 "use client"
-import { Box, CssBaseline, Toolbar, Stack, FormControl, FormHelperText, InputLabel, TextField, Select, SelectChangeEvent, MenuItem, Button, Modal, CircularProgress} from "@mui/material";
+import { Box, CssBaseline, Toolbar, Stack, FormControl, FormHelperText, InputLabel, TextField, Select, SelectChangeEvent, MenuItem, Button, Modal, CircularProgress, OutlinedInput} from "@mui/material";
 import CategoryDrawer from "@/components/Main/CategoryDrawer";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -128,9 +128,12 @@ export default function Edit() {
               <Select
                 label="category"
                 {...register("category", {required: true})}
-                onChange={() => clearErrors("category")}
+                value={dataCategory}
+                onChange={(e) => {
+                  clearErrors("category");
+                  setDataCategory(e.target.value);
+                }}
                 style={{height: "45px", fontSize: "14px"}}
-                defaultValue={data?.category}
               >
                 <MenuItem value={"minishell"}>minishell</MenuItem>
                 <MenuItem value={"minirt"}>minirt</MenuItem>
