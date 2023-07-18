@@ -8,7 +8,7 @@ import lombok.*;
 public class QuestionListElementDto {
 
     private long questionId;
-    private long recommand;
+    private long recommend;
     private long view;
     private int answerCount;
     private String title;
@@ -20,7 +20,7 @@ public class QuestionListElementDto {
     @Builder
     public QuestionListElementDto(Question question) {
         this.questionId  = question.getQuestionId();
-        this.recommand = question.getRecommend();
+        this.recommend = question.getRecommend();
         this.view = question.getView();
         this.answerCount = question.getAnswerList().size();
         this.title = question.getTitle();

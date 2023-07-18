@@ -29,13 +29,15 @@ public class QuestionService {
     private final PasswordEncoder passwordEncoder;
 
     private Specification<Question> search(String keyword) {
+
         return (root, query, criteriaBuilder) -> {
             query.distinct(true);
             return criteriaBuilder.like(root.get("title"), "%" + keyword + "%");
         };
     }
 
-    public Question findQuestion(Long questionId) {
+    private Question findQuestion(Long questionId) {
+
         Optional<Question> questionOptional = this.questionRepository.findById(questionId);
         if (questionOptional.isEmpty()) {
             throw new RuntimeException();
@@ -65,6 +67,7 @@ public class QuestionService {
     }
 
     public void post(QuestionPostDto questionPost) {
+
         String endcodePassword = passwordEncoder.encode(questionPost.getPassword());
         questionPost.setPassword(endcodePassword);
         Question question = questionPost.toQuestion();
@@ -72,12 +75,14 @@ public class QuestionService {
     }
 
     public QuestionDetailDto getDetail(Long questionId) {
+
         Question question = findQuestion(questionId);
         question.setView(question.getView() + 1L);
         return new QuestionDetailDto(question);
     }
 
     public void modify(Long questionId, QuestionPutDto questionPut) {
+
         Question question = findQuestion(questionId);
         if (!question.getNickname().equals(questionPut.getNickname()) ||
             !passwordEncoder.matches(questionPut.getPassword(), question.getPassword())) {
@@ -88,6 +93,7 @@ public class QuestionService {
     }
 
     public void delete(Long questionId, String password) {
+
         Question question = findQuestion(questionId);
         if (!passwordEncoder.matches(password, question.getPassword())) {
             throw new PasswordWrongException();
@@ -96,6 +102,7 @@ public class QuestionService {
     }
 
     public void like(Long questoinId) {
+
         Question question = findQuestion(questoinId);
         question.setRecommend(question.getRecommend() + 1L);
         this.questionRepository.save(question);

@@ -20,13 +20,6 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
-//        httpSecurity
-//                .authorizeHttpRequests().requestMatchers(
-//                    new AntPathRequestMatcher("/**")).permitAll()
-//                    .and()
-//                    .csrf().ignoringRequestMatchers(
-//                        new AntPathRequestMatcher("/v1/*")
-//                );
         return httpSecurity.build();
     }
 

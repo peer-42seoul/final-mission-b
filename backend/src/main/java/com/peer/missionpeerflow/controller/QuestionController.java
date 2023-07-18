@@ -23,6 +23,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     private String getSortAttribute(String sort) {
+
         switch(sort) {
             case "lastest":
                 return "createdAt";
@@ -57,33 +58,38 @@ public class QuestionController {
 
     @PostMapping("/question")
     public ResponseEntity<String> create(@RequestBody QuestionPostDto newQuestion) {
+
         this.questionService.post(newQuestion);
-        return ResponseEntity.status(HttpStatus.OK).body("OK");
+        return ResponseEntity.status(HttpStatus.CREATED).body("OK");
     }
 
     @GetMapping("/question/{questionId}")
     @ResponseBody
     public QuestionDetailDto showDetail(@PathVariable("questionId") Long questionId) {
+
         return this.questionService.getDetail(questionId);
     }
 
     @PutMapping("/question/{questionId}")
     public ResponseEntity<String> modify(@PathVariable("questionId") Long questionId,
-                          @RequestBody QuestionPutDto questionPut) {
+                                         @RequestBody QuestionPutDto questionPut) {
+
         this.questionService.modify(questionId, questionPut);
-        return ResponseEntity.status(HttpStatus.OK).body("OK");
+        return ResponseEntity.status(HttpStatus.CREATED).body("OK");
     }
 
     @PostMapping("/question/{questionId}")
     public ResponseEntity<String> delete(@PathVariable("questionId") Long questionId,
-                          @RequestBody QuestionDeleteDto questionDelete) {
+                                         @RequestBody QuestionDeleteDto questionDelete) {
+
         this.questionService.delete(questionId, questionDelete.getPassword());
         return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
 
     @PutMapping("/question/recommend/{questionId}")
     public ResponseEntity<String> like(@PathVariable("questionId") Long questionId) {
+
         this.questionService.like(questionId);
-        return ResponseEntity.status(HttpStatus.OK).body("OK");
+        return ResponseEntity.status(HttpStatus.CREATED).body("OK");
     }
 }
